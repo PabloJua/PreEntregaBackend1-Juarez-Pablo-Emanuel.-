@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('fs');
 
 class CartManager {
     constructor() {
@@ -8,7 +8,7 @@ class CartManager {
     }
 
 
-    async createCarrito() {
+    async addCart() {
         if(fs.existsSync(this.path)) {
             const data = await fs.promises.readFile(this.path, 'utf-8');
             const carts = JSON.parse(data);
@@ -40,37 +40,7 @@ class CartManager {
 
 
 
-    addProduct(title, description, price, thumbnail, code, stock) {
-        // Validar que todos los campos sean obligatorios 
-        if (!title || !description || !price || !thumbnail || !code || !stock) {
-            console.log("Todos los campos son obligatorios");
-            return;
-        }
-
-        // Validar que no se repita el campo "code"
-        const codeRepetido = this.carts.some(product => product.code === code) // some() comprueba si al menos un elemento del array cumple con la condición.Este método devuelve true/false.
-        if (codeRepetido) {
-            console.log(`Existe un producto con el codigo ${code}`);
-        }
-
-        const producto_nuevo = {
-            id: ++this.id,
-            title: title,
-            description: description,
-            price: price,
-            thumbnail: thumbnail,
-            code: code,
-            stock: stock
-        }
-
-        // Agregar un producto al arreglo de productos
-        this.carts.push(producto_nuevo);
-        console.log("Producto agregado correctamente");
-        // Guardar el array de productos en el archivo
-        fs.writeFile(this.path, JSON.stringify(this.carts), (err) => {
-            if (err) throw err;
-            console.log("Productos almacenados con exito en el archivo");
-        });
+    addProductToCart(title, description, price, thumbnail, code, stock) {
     }
 
 }

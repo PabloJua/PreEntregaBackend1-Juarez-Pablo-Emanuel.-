@@ -1,9 +1,12 @@
 const express = require('express');
+const routerProduct = require('../routes/products'); //import routerProduct from '../routes/products';
+const routerCart = require('../routes/carts'); //import routerCart from '../routes/carts';
 const server = express();
-const cartsRouter = require('../routes/carts')
+
 
 server.use(express.json());
-server.use('/api/carts', cartsRouter);
+server.use('/api/products', routerProduct);
+server.use('/api/carts', routerCart);
 // server.use(express.static('public'));
 
 const PUERTO = 8080;
@@ -24,3 +27,6 @@ server.listen(PUERTO, () => {
 //      res.send('Endpoint alcanzado);
 //      console.log(req.body); // body.parser    
 // })
+
+
+module.exports = server;

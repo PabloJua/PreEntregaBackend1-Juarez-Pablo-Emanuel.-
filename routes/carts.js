@@ -1,12 +1,7 @@
-
-// Agregar el producto al arreglo “products” del carrito seleccionado, agregándose como un objeto bajo el siguiente formato:
-// product: SÓLO DEBE CONTENER EL ID DEL PRODUCTO.
-// quantity: número de ejemplares del producto. 
-// Además, si un producto ya existente intenta agregarse al producto, incrementar el campo quantity de dicho producto. 
 const express = require('express');
-import ProductManager from '../productManager.js';
-import routerProduct from './products.js'
-import CartManager from '../cartManager.js';
+const ProductManager = require ('../productManager.js');
+const routerProduct = require('./products.js');
+const CartManager = require('../cartManager.js'); 
 
 const productManager = new ProductManager();
 const cartManager = new CartManager();
@@ -32,3 +27,4 @@ routerCart.get('/carts/:cid', (req, res) => {
 })
 
 
+module.exports = routerCart;
