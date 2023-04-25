@@ -32,11 +32,17 @@ routerProduct.get('/products', (req , res) => {
 
 // Trae el producto con el id proporcionado
 
-routerProduct.get('/products/:pid' , (req, res) => {
+routerProduct.get('/products/:pid' , async (req, res) => {
     const productId = req.params.pid;
     try {
-        let productsById = productManager.getProductId(productId);
-        res.status(200).send(productsById);
+        const productsById = await productManager.getProductId(parseInt(productId));
+        
+        if (!productsById) {
+            res.status(404).send(`No se encontró ID ${productId}`);
+          } else {
+            return res.status(200).send(product);
+          }
+
     } catch (error) {
         return res.status(404).send(error);
     }
@@ -45,10 +51,10 @@ routerProduct.get('/products/:pid' , (req, res) => {
 
 // Agregar un nuevo producto
 
-routerProduct.post('/ProductsA', (req, res) => {
+routerProduct.post('/products', (req, res) => {
     const product_new = req.body;
     try {
-        productManager.addProduct(product_new);  
+        productManager.addProduct(product_new); 
         res.status(200).send({estado: 'ok', mensaje: 'Producto Agregado Correctamente'}); 
     } catch (error) {
         return res.status(404).send(error)
@@ -83,7 +89,6 @@ routerProduct.delete('/products/:pid', (req, res) => {
     } catch (error) {
         return res.status(404).send(error);
     }
-
 });
 
 

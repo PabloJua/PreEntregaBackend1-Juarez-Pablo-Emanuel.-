@@ -3,14 +3,14 @@ const fs = require('fs');
 class ProductManager {
     constructor() {
         this.products = [];
-        this.id = 0;
+        this.id = 0,
         this.path = './data/products.json';
     }
 
-    addProduct(title, description, code, price, status, stock, category, thumbnail) {
+    addProduct(data) {
         // Validar que todos los campos sean obligatorios 
-        if (!title || !description || !code || !price || !status || !stock || !category || !thumbnail) {
-            console.log("Todos los campos son obligatorios");
+        if (!data.title || !data.description || !data.code || !data.price || !data.stock || !data.thumbnail) {
+            console.log(data);
             return;
         }
 
@@ -21,25 +21,24 @@ class ProductManager {
         }
 
         const producto_nuevo = {
-            id: ++this.id,
-            title: title,
-            description: description,
-            code: code,
-            price: price,
-            status: status,
-            stock: stock,
-            category: category,
-            thumbnail: thumbnail
+            id: parseInt(Math.random() * 10),
+            title: data.title,
+            description: data.description,
+            code: data.code,
+            price: data.price,
+            stock: data.stock,
+            thumbnail: data.thumbnail
         }
-
-        // Agregar un producto al arreglo de productos
-        this.products.push(producto_nuevo);
-        console.log("Producto agregado correctamente");
-        // Guardar el array de productos en el archivo
-        fs.writeFile(this.path, JSON.stringify(this.products), (err) => {
-            if (err) throw err;
-            console.log("Productos almacenados con exito en el archivo");
-        });
+        
+        if(fs.existsSync(this.path)) {
+            const data = fs.readFileSync(this.path, 'utf-8');
+            const products = JSON.parse(data);
+            products.push(producto_nuevo)
+            fs.writeFileSync(this.path, JSON.stringify(products), (err) => {
+                if (err) throw err;
+                console.log("Productos almacenados con exito en el archivo");
+            });
+            }        
     }
 
 
@@ -79,7 +78,7 @@ class ProductManager {
             console.log("Producto no encontrado");
             return;
         } 
-        products[index][field] = updateData; 
+        products[index][field] = updateData[field]; 
          // Actualizar el valor del campo en el objeto con el índice en el arreglo products al nuevo valor asignado".
         // products es el nombre del arreglo que contiene los objetos.
         // index es el índice del objeto en el arreglo que quieres actualizar.
@@ -96,14 +95,13 @@ class ProductManager {
     async deleteProduct(productIdToDelete) {
         const data = await fs.promises.readFile(this.path, 'utf-8');
         const products = JSON.parse(data);
-
         const productoEliminado = products.findIndex(product => product.id === productIdToDelete)
         if(productoEliminado === -1) {
             console.log(`No se encontró producto con ID ${productIdToDelete}`);
             return;
         }
 
-        products.splice(productIdToDelete, 1);
+        products.splice(productoEliminado, 1);
         fs.writeFile(this.path, JSON.stringify(products), err => {
             if(err) throw err;
             console.log("Producto eliminado correctamente")

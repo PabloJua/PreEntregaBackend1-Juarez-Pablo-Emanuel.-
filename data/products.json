@@ -1,0 +1,25 @@
+[{
+    "id": 1,
+    "title": "Computadora",
+    "description": "hola mariano",
+    "price": 1500,
+    "thumbnail": "imagen1.jpg",
+    "code": "COMP01",
+    "stock": 1
+}, {
+    "id": 3,
+    "title": "Tablet",
+    "description": "Tablet Lenovo",
+    "price": 75000,
+    "thumbnail": "imagen3.jpg",
+    "code": "TAB01",
+    "stock": 1
+}, {
+    "id": 6,
+    "title": "Complkutadora",
+    "description": "Computadora Dell",
+    "code": "Csll01",
+    "price": 1500,
+    "stock": 1,
+    "thumbnail": "imagen5.jpg"
+}]

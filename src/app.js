@@ -5,8 +5,8 @@ const server = express();
 
 
 server.use(express.json());
-server.use('/api/products', routerProduct);
-server.use('/api/carts', routerCart);
+server.use('/api', routerProduct);
+server.use('/api', routerCart);
 // server.use(express.static('public'));
 
 const PUERTO = 8080;
