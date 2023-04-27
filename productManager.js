@@ -19,9 +19,9 @@ class ProductManager {
         if (codeRepetido) {
             console.log(`Existe un producto con el codigo ${code}`);
         }
-
+        const idNuevo = this.id + 1 ;
         const producto_nuevo = {
-            id: parseInt(Math.random() * 10),
+            id: idNuevo,
             title: data.title,
             description: data.description,
             code: data.code,
@@ -70,24 +70,19 @@ class ProductManager {
     }
 
 
-    async updateProduct(productId, field, updateData) {
+    async updateProduct(productId, updateData) {
         const data = await fs.promises.readFile(this.path, 'utf-8');
-        const products = JSON.parse(data)
-        const index = products.findIndex (product => product.id === productId); // findIndex() devuelve el índice del primer elemento de un array que cumpla la condicion. En caso contrario devuelve -1.
-        if (index === -1 ){
-            console.log("Producto no encontrado");
-            return;
-        } 
-        products[index][field] = updateData[field]; 
-         // Actualizar el valor del campo en el objeto con el índice en el arreglo products al nuevo valor asignado".
-        // products es el nombre del arreglo que contiene los objetos.
-        // index es el índice del objeto en el arreglo que quieres actualizar.
-        // field es el nombre del campo específico en el objeto que quieres actualizar.
-        // updateData es el nuevo valor que deseas asignar al campo.
-
+        let products = JSON.parse(data)
+        let index = products.findIndex(product => product.id === productId); // findIndex() devuelve el índice del primer elemento de un array que cumpla la condicion. En caso contrario devuelve -1.
+        if (index === -1) {
+            return "Producto no encontrado";
+          }
+          
+        products[index] = Object.assign({}, products[index], updateData);
+    
         fs.writeFile(this.path, JSON.stringify(products), err => {
             if(err) throw err;
-            console.log("Producto actualizado correctamente")
+            return "Producto actualizado correctamente"
         });
     }
 
